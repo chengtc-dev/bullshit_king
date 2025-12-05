@@ -51,6 +51,25 @@ flutter run
 flutter build ios --no-codesign --simulator
 ```
 
+## ✅ 測試
+
+本專案包含完整的單元測試和 Widget 測試，以確保核心邏輯的穩定性。
+
+### 運行測試
+
+要運行所有測試，請執行以下指令：
+
+```bash
+flutter test
+```
+
+### 測試覆蓋範圍
+
+- **`game_provider_test.dart`**: 針對核心遊戲邏輯 (`GameProvider`) 的單元測試。
+  - 玩家管理 (新增/移除)
+  - 遊戲開始條件
+  - 完整的遊戲流程 (角色分配、計分、重置)
+
 ## 📁 專案結構
 
 ```
@@ -73,6 +92,9 @@ lib/
 ├── theme/
 │   └── app_theme.dart          # 應用程式主題
 └── main.dart                   # 應用程式入口
+test/
+└── providers/
+    └── game_provider_test.dart # 遊戲邏輯管理的單元測試
 ```
 
 ## 🎮 遊戲流程

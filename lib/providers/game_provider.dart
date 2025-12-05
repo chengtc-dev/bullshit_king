@@ -47,6 +47,9 @@ class GameProvider extends ChangeNotifier {
   /// 取得「想想」玩家
   Player? get thinker => _thinker;
 
+  /// 取得「老實人」玩家
+  Player? get honest => _honest;
+
   // --- 設定相關方法 ---
 
   /// 新增玩家
@@ -174,16 +177,6 @@ class GameProvider extends ChangeNotifier {
     _currentTopic = null;
     _thinker = null;
     _honest = null;
-    notifyListeners();
-  }
-  
-  /// 重置遊戲
-  /// 
-  /// 清除所有玩家和狀態，完全重新開始
-  void resetGame() {
-    _players.clear();
-    _currentPhase = GamePhase.setup;
-    _currentTopic = null;
     notifyListeners();
   }
 }

@@ -1,0 +1,161 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import '../providers/game_provider.dart';
+import '../models/player.dart';
+import 'setup_screen.dart';
+
+/// 結果畫面
+/// 
+/// 顯示正確答案、揭曉老實人身份以及玩家得分
+class ResultScreen extends StatelessWidget {
+  const ResultScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Consumer<GameProvider>(
+        builder: (context, game, child) {
+          final honest = game.players.firstWhere((p) => p.role == Role.honest);
+
+          return Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  const Color(0xFF1A237E),
+                  Theme.of(context).colorScheme.surface,
+                ],
+              ),
+            ),
+            child: SafeArea(
+              child: Column(
+                children: [
+                  const SizedBox(height: 40),
+                  Text(
+                    '真相大白',
+                    style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                      color: const Color(0xFFFFD700),
+                    ),
+                  ).animate().fadeIn().scale(),
+                  const SizedBox(height: 20),
+                  // 正確答案區塊
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    margin: const EdgeInsets.symmetric(horizontal: 24),
+                    decoration: BoxDecoration(
+                      color: Colors.white10,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Column(
+                      children: [
+                        const Text('正確答案', style: TextStyle(color: Colors.white54)),
+                        const SizedBox(height: 8),
+                        Text(
+                          game.currentTopic?.term ?? '',
+                          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          game.currentTopic?.definition ?? '',
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                      ],
+                    ),
+                  ).animate().slideY(begin: 0.2),
+                  const SizedBox(height: 30),
+                  // 揭曉老實人
+                  Text(
+                    '老實人是...',
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                  const SizedBox(height: 10),
+                  CircleAvatar(
+                    radius: 50,
+                    backgroundColor: Colors.greenAccent,
+                    child: Text(
+                      honest.name[0].toUpperCase(),
+                      style: const TextStyle(fontSize: 40, color: Colors.black),
+                    ),
+                  ).animate().scale(delay: 500.ms).shake(delay: 1000.ms),
+                  Text(
+                    honest.name,
+                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.greenAccent),
+                  ).animate().fadeIn(delay: 600.ms),
+                  const SizedBox(height: 30),
+                  const Divider(color: Colors.white24),
+                  // 玩家得分列表
+                  Expanded(
+                    child: ListView.builder(
+                      padding: const EdgeInsets.all(16),
+                      itemCount: game.players.length,
+                      itemBuilder: (context, index) {
+                        final player = game.players[index];
+                        return ListTile(
+                          leading: Text(
+                            '${index + 1}',
+                            style: const TextStyle(color: Colors.white54, fontSize: 18),
+                          ),
+                          title: Text(player.name),
+                          subtitle: Text(_getRoleText(player.role)),
+                          trailing: Text(
+                            '${player.score} 分',
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFFFFD700),
+                            ),
+                          ),
+                        ).animate().fadeIn(delay: (1200 + index * 100).ms);
+                      },
+                    ),
+                  ),
+                  // 下一局按鈕
+                  Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          game.nextRound();
+                          // 回到設定畫面 (保留玩家)
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(builder: (context) => const SetupScreen()),
+                            (route) => false,
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).colorScheme.secondary,
+                          foregroundColor: Colors.black,
+                        ),
+                        child: const Text('下一局'),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  /// 取得角色中文名稱
+  String _getRoleText(Role? role) {
+    switch (role) {
+      case Role.thinker:
+        return '想想';
+      case Role.honest:
+        return '老實人';
+      case Role.bullshitter:
+        return '瞎掰人';
+      default:
+        return '';
+    }
+  }
+}

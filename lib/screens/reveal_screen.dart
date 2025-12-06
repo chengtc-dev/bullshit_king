@@ -7,7 +7,7 @@ import '../models/game_state.dart';
 import 'discussion_screen.dart';
 
 /// 身份揭示畫面
-/// 
+///
 /// 採用 Pass-and-Play 模式，讓玩家輪流查看自己的身份
 class RevealScreen extends StatefulWidget {
   const RevealScreen({super.key});
@@ -28,7 +28,7 @@ class _RevealScreenState extends State<RevealScreen> {
         _isRevealed = false;
       });
       game.nextPlayerReveal();
-      
+
       // 如果所有人都看過了，進入討論階段
       if (game.currentPhase == GamePhase.discuss) {
         Navigator.pushReplacement(
@@ -219,10 +219,11 @@ class _RevealScreenState extends State<RevealScreen> {
           const SizedBox(height: 20),
           TextButton.icon(
             onPressed: () => _handleRestart(context, game),
-            icon: const Icon(Icons.refresh, color: Colors.white70),
-            label: const Text(
-              '我知道題目意思 (重新開始下一輪)',
-              style: TextStyle(color: Colors.white70),
+            icon: const Icon(Icons.refresh, size: 18),
+            label: const Text('我知道題目意思 (換一題)'),
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.white54,
+              textStyle: const TextStyle(fontSize: 14),
             ),
           ),
         ],
@@ -234,18 +235,40 @@ class _RevealScreenState extends State<RevealScreen> {
   void _handleRestart(BuildContext context, GameProvider game) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('確定要重新開始？'),
-        content: const Text('如果你已經知道題目意思，請重新開始下一輪。\n這將會重新分配角色和題目。'),
+      builder: (dialogContext) => AlertDialog(
+        backgroundColor: const Color(0xFF1A0B2E),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+          side: BorderSide(color: const Color(0xFFFFD700).withValues(alpha: 0.5)),
+        ),
+        title: Center(
+          child: Text(
+            '確定換一題？',
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  color: const Color(0xFFFFD700),
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+        ),
+        content: Text(
+          '如果你已經知道題目意思，\n可以換一題重新開始。',
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white70),
+        ),
+        actionsAlignment: MainAxisAlignment.center,
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.pop(dialogContext),
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.white70,
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+            ),
             child: const Text('取消'),
           ),
           TextButton(
             onPressed: () {
-              Navigator.pop(context); // 關閉對話框
-              
+              Navigator.pop(dialogContext); // 關閉對話框
+
               // 重新開始遊戲
               // 先重置揭示狀態
               setState(() {
@@ -255,8 +278,12 @@ class _RevealScreenState extends State<RevealScreen> {
               // 呼叫 provider 重新開始
               game.startGame();
             },
-            style: TextButton.styleFrom(foregroundColor: Colors.red),
-            child: const Text('確定重新開始'),
+            style: TextButton.styleFrom(
+              foregroundColor: const Color(0xFFFFD700),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              textStyle: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            child: const Text('確定換題'),
           ),
         ],
       ),

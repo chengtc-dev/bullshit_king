@@ -3,7 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'setup_screen.dart';
 
 /// 主畫面
-/// 
+///
 /// 顯示遊戲標題、開始按鈕和規則說明
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -95,34 +95,79 @@ class HomeScreen extends StatelessWidget {
 class RulesDialog extends StatelessWidget {
   const RulesDialog({super.key});
 
+  Widget _buildRulePoint(BuildContext context, String title, List<String> descriptions) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+        ),
+        const SizedBox(height: 8),
+        ...descriptions.map((text) => Padding(
+              padding: const EdgeInsets.only(left: 8.0, bottom: 4),
+              child: Text(
+                text,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white70),
+              ),
+            )),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('遊戲規則'),
-      content: const SingleChildScrollView(
+      backgroundColor: const Color(0xFF1A0B2E),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(color: const Color(0xFFFFD700).withValues(alpha: 0.5)),
+      ),
+      title: Center(
+        child: Text(
+          '遊戲規則',
+          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                color: const Color(0xFFFFD700),
+                fontWeight: FontWeight.bold,
+              ),
+        ),
+      ),
+      content: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('1. 角色分配：'),
-            Text('• 老實人：知道題目與正確解釋。'),
-            Text('• 瞎掰人：不知道題目，需瞎掰解釋。'),
-            Text('• 想想：負責猜誰是老實人。'),
-            SizedBox(height: 10),
-            Text('2. 流程：'),
-            Text('• 輪流查看身份（傳遞手機）。'),
-            Text('• 所有人輪流解釋題目（老實人說真話，瞎掰人說謊）。'),
-            Text('• 想想提問並投票。'),
-            SizedBox(height: 10),
-            Text('3. 計分：'),
-            Text('• 猜對：想想與老實人得分。'),
-            Text('• 猜錯：被選中的瞎掰人得分。'),
+            _buildRulePoint(context, '1. 角色分配：', [
+              '• 老實人：知道題目與正確解釋。',
+              '• 瞎掰人：知道題目，需瞎掰解釋。',
+              '• 想想：負責猜誰是老實人。',
+            ]),
+            const SizedBox(height: 16),
+            _buildRulePoint(context, '2. 流程：', [
+              '• 輪流查看身份（傳遞手機）。',
+              '• 所有人輪流解釋題目（老實人說真話，瞎掰人說謊）。',
+              '• 想想提問並投票。',
+            ]),
+            const SizedBox(height: 16),
+            _buildRulePoint(context, '3. 計分：', [
+              '• 猜對：想想與老實人得分。',
+              '• 猜錯：被選中的瞎掰人得分。',
+            ]),
           ],
         ),
       ),
+      actionsAlignment: MainAxisAlignment.center,
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
+          style: TextButton.styleFrom(
+            foregroundColor: const Color(0xFFFFD700),
+            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+            textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
           child: const Text('懂了'),
         ),
       ],

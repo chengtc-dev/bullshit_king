@@ -80,7 +80,7 @@ class HomeScreen extends StatelessWidget {
                   child: const Text('遊戲規則'),
                 ).animate().fadeIn(delay: 1200.ms),
                 const Spacer(),
-                const Text('Designed for Party Fun').animate().fadeIn(delay: 1500.ms),
+                const Text('題目由生成式AI產生，可能會出錯').animate().fadeIn(delay: 1500.ms),
                 const SizedBox(height: 20),
               ],
             ),

@@ -31,7 +31,7 @@ class HomeScreen extends StatelessWidget {
                 const Spacer(),
                 // 標題
                 Text(
-                  '瞎掰王',
+                  '幹話王',
                   style: Theme.of(context).textTheme.displayLarge?.copyWith(
                     fontSize: 72,
                     color: const Color(0xFFFFD700),

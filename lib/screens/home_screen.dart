@@ -30,19 +30,29 @@ class HomeScreen extends StatelessWidget {
               children: [
                 const Spacer(),
                 // 標題
-                Text(
-                  '幹話王',
-                  style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                    fontSize: 72,
-                    color: const Color(0xFFFFD700),
-                    shadows: [
-                      const Shadow(
-                        blurRadius: 20,
-                        color: Color(0x88FFD700),
-                        offset: Offset(0, 0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '幹話王',
+                      style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                        fontSize: 72,
+                        color: const Color(0xFFFFD700),
+                        shadows: [
+                          const Shadow(
+                            blurRadius: 20,
+                            color: Color(0x88FFD700),
+                            offset: Offset(0, 0),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(width: 16),
+                    Image.asset(
+                      'assets/icon/logo.png',
+                      height: 72,
+                    )
+                  ],
                 ).animate().fadeIn(duration: 800.ms).scale(delay: 200.ms),
                 // 副標題
                 Text(

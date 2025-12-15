@@ -138,7 +138,7 @@ class _RevealScreenState extends State<RevealScreen> {
         break;
       case Role.honest:
         roleTitle = '你是「老實人」';
-        description = '請閱讀以下正確解釋，\n並試著讓想想相信你。';
+        description = '請閱讀以上正確解釋，\n並試著讓想想相信你。';
         color = Colors.greenAccent;
         icon = Icons.verified;
         break;

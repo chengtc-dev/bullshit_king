@@ -5,7 +5,7 @@ import '../providers/game_provider.dart';
 import 'reveal_screen.dart';
 
 /// 設定畫面
-/// 
+///
 /// 允許玩家輸入名稱並加入遊戲
 class SetupScreen extends StatefulWidget {
   const SetupScreen({super.key});
@@ -62,7 +62,9 @@ class _SetupScreenState extends State<SetupScreen> {
                       onPressed: _addPlayer,
                       icon: const Icon(Icons.add),
                       style: IconButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.secondary,
+                        backgroundColor: Theme.of(
+                          context,
+                        ).colorScheme.secondary,
                         foregroundColor: Colors.black,
                       ),
                     ),
@@ -76,10 +78,15 @@ class _SetupScreenState extends State<SetupScreen> {
                   itemBuilder: (context, index) {
                     final player = game.players[index];
                     return Card(
-                      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 4,
+                      ),
                       child: ListTile(
                         leading: CircleAvatar(
-                          backgroundColor: Theme.of(context).colorScheme.primary,
+                          backgroundColor: Theme.of(
+                            context,
+                          ).colorScheme.primary,
                           child: Text(
                             player.name[0].toUpperCase(),
                             style: const TextStyle(color: Colors.white),
@@ -87,7 +94,10 @@ class _SetupScreenState extends State<SetupScreen> {
                         ),
                         title: Text(player.name),
                         trailing: IconButton(
-                          icon: const Icon(Icons.delete, color: Colors.redAccent),
+                          icon: const Icon(
+                            Icons.delete,
+                            color: Colors.redAccent,
+                          ),
                           onPressed: () => game.removePlayer(player.id),
                         ),
                       ),
@@ -106,7 +116,9 @@ class _SetupScreenState extends State<SetupScreen> {
                             game.startGame();
                             Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(builder: (context) => const RevealScreen()),
+                              MaterialPageRoute(
+                                builder: (context) => const RevealScreen(),
+                              ),
                             );
                           }
                         : null,
@@ -116,9 +128,7 @@ class _SetupScreenState extends State<SetupScreen> {
                           : Colors.grey,
                       foregroundColor: Colors.black,
                     ),
-                    child: Text(
-                      game.canStartGame ? '開始遊戲' : '至少需要3位玩家',
-                    ),
+                    child: Text(game.canStartGame ? '開始遊戲' : '至少需要3位玩家'),
                   ),
                 ),
               ),

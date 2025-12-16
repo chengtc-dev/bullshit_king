@@ -1,10 +1,10 @@
 /// 題目模型類
-/// 
+///
 /// 包含題目詞彙及其正確解釋
 class Topic {
   /// 題目詞彙 (例如：量子糾纏)
   final String term;
-  
+
   /// 正確解釋
   final String definition;
 

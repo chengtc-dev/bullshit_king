@@ -18,9 +18,7 @@ class BullshitKingApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => GameProvider()),
-      ],
+      providers: [ChangeNotifierProvider(create: (_) => GameProvider())],
       child: MaterialApp(
         title: 'Bullshit King',
         theme: AppTheme.darkTheme,

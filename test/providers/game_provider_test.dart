@@ -41,7 +41,7 @@ void main() {
       gameProvider.addPlayer('玩家一');
       gameProvider.addPlayer('玩家二');
       expect(gameProvider.canStartGame, isFalse);
-      
+
       gameProvider.startGame(); // 嘗試開始
       expect(gameProvider.currentPhase, GamePhase.setup); // 應維持在設定階段
     });
@@ -65,7 +65,7 @@ void main() {
       test('startGame 應正確分配角色並進入揭示階段', () {
         expect(gameProvider.currentPhase, GamePhase.reveal);
         expect(gameProvider.currentTopic, isNotNull);
-        
+
         final roles = gameProvider.players.map((p) => p.role).toList();
         expect(roles.where((r) => r == Role.thinker).length, 1);
         expect(roles.where((r) => r == Role.honest).length, 1);
@@ -77,16 +77,16 @@ void main() {
 
       test('nextPlayerReveal 應切換玩家，直到進入討論階段', () {
         expect(gameProvider.currentPlayerIndex, 0);
-        
+
         gameProvider.nextPlayerReveal(); // -> 1
         expect(gameProvider.currentPlayerIndex, 1);
-        
+
         gameProvider.nextPlayerReveal(); // -> 2
         expect(gameProvider.currentPlayerIndex, 2);
-        
+
         gameProvider.nextPlayerReveal(); // -> 3
         expect(gameProvider.currentPlayerIndex, 3);
-        
+
         // 最後一位玩家查看完畢後，進入討論階段
         gameProvider.nextPlayerReveal();
         expect(gameProvider.currentPhase, GamePhase.discuss);
@@ -98,15 +98,19 @@ void main() {
         gameProvider.nextPlayerReveal();
         gameProvider.nextPlayerReveal();
         gameProvider.nextPlayerReveal();
-        
+
         gameProvider.startVoting();
         expect(gameProvider.currentPhase, GamePhase.vote);
       });
 
       test('submitVote - 猜對老實人，分數應正確計算', () {
-        final thinker = gameProvider.players.firstWhere((p) => p.role == Role.thinker);
-        final honest = gameProvider.players.firstWhere((p) => p.role == Role.honest);
-        
+        final thinker = gameProvider.players.firstWhere(
+          (p) => p.role == Role.thinker,
+        );
+        final honest = gameProvider.players.firstWhere(
+          (p) => p.role == Role.honest,
+        );
+
         final initialThinkerScore = thinker.score;
         final initialHonestScore = honest.score;
 
@@ -118,9 +122,13 @@ void main() {
       });
 
       test('submitVote - 猜錯老實人，分數應正確計算', () {
-        final thinker = gameProvider.players.firstWhere((p) => p.role == Role.thinker);
-        final bullshitter = gameProvider.players.firstWhere((p) => p.role == Role.bullshitter);
-        
+        final thinker = gameProvider.players.firstWhere(
+          (p) => p.role == Role.thinker,
+        );
+        final bullshitter = gameProvider.players.firstWhere(
+          (p) => p.role == Role.bullshitter,
+        );
+
         final initialThinkerScore = thinker.score;
         final initialBullshitterScore = bullshitter.score;
 

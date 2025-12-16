@@ -48,10 +48,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 16),
-                    Image.asset(
-                      'assets/icon/logo.png',
-                      height: 72,
-                    )
+                    Image.asset('assets/icon/logo.png', height: 72),
                   ],
                 ).animate().fadeIn(duration: 800.ms).scale(delay: 200.ms),
                 // 副標題
@@ -65,19 +62,27 @@ class HomeScreen extends StatelessWidget {
                 const Spacer(),
                 // 開始遊戲按鈕
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const SetupScreen()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 20),
-                    backgroundColor: const Color(0xFFFFD700),
-                    foregroundColor: Colors.black,
-                  ),
-                  child: const Text('開始遊戲'),
-                ).animate().fadeIn(delay: 1000.ms).shimmer(delay: 2000.ms, duration: 1500.ms),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SetupScreen(),
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 48,
+                          vertical: 20,
+                        ),
+                        backgroundColor: const Color(0xFFFFD700),
+                        foregroundColor: Colors.black,
+                      ),
+                      child: const Text('開始遊戲'),
+                    )
+                    .animate()
+                    .fadeIn(delay: 1000.ms)
+                    .shimmer(delay: 2000.ms, duration: 1500.ms),
                 const SizedBox(height: 20),
                 // 規則按鈕
                 TextButton(
@@ -105,25 +110,33 @@ class HomeScreen extends StatelessWidget {
 class RulesDialog extends StatelessWidget {
   const RulesDialog({super.key});
 
-  Widget _buildRulePoint(BuildContext context, String title, List<String> descriptions) {
+  Widget _buildRulePoint(
+    BuildContext context,
+    String title,
+    List<String> descriptions,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           title,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         const SizedBox(height: 8),
-        ...descriptions.map((text) => Padding(
-              padding: const EdgeInsets.only(left: 8.0, bottom: 4),
-              child: Text(
-                text,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white70),
-              ),
-            )),
+        ...descriptions.map(
+          (text) => Padding(
+            padding: const EdgeInsets.only(left: 8.0, bottom: 4),
+            child: Text(
+              text,
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: Colors.white70),
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -140,9 +153,9 @@ class RulesDialog extends StatelessWidget {
         child: Text(
           '遊戲規則',
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                color: const Color(0xFFFFD700),
-                fontWeight: FontWeight.bold,
-              ),
+            color: const Color(0xFFFFD700),
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
       content: SingleChildScrollView(
@@ -176,7 +189,10 @@ class RulesDialog extends StatelessWidget {
           style: TextButton.styleFrom(
             foregroundColor: const Color(0xFFFFD700),
             padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-            textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            textStyle: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           child: const Text('懂了'),
         ),

@@ -6,7 +6,7 @@ import '../models/player.dart';
 import 'setup_screen.dart';
 
 /// 結果畫面
-/// 
+///
 /// 顯示正確答案、揭曉老實人身份以及玩家得分
 class ResultScreen extends StatelessWidget {
   const ResultScreen({super.key});
@@ -51,11 +51,17 @@ class ResultScreen extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        const Text('正確答案', style: TextStyle(color: Colors.white54)),
+                        const Text(
+                          '正確答案',
+                          style: TextStyle(color: Colors.white54),
+                        ),
                         const SizedBox(height: 8),
                         Text(
                           game.currentTopic?.term ?? '',
-                          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                          style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         const SizedBox(height: 8),
                         Text(
@@ -83,7 +89,11 @@ class ResultScreen extends StatelessWidget {
                   ).animate().scale(delay: 500.ms).shake(delay: 1000.ms),
                   Text(
                     honest.name,
-                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.greenAccent),
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.greenAccent,
+                    ),
                   ).animate().fadeIn(delay: 600.ms),
                   const SizedBox(height: 30),
                   const Divider(color: Colors.white24),
@@ -97,7 +107,10 @@ class ResultScreen extends StatelessWidget {
                         return ListTile(
                           leading: Text(
                             '${index + 1}',
-                            style: const TextStyle(color: Colors.white54, fontSize: 18),
+                            style: const TextStyle(
+                              color: Colors.white54,
+                              fontSize: 18,
+                            ),
                           ),
                           title: Text(player.name),
                           subtitle: Text(_getRoleText(player.role)),
@@ -124,12 +137,16 @@ class ResultScreen extends StatelessWidget {
                           // 回到設定畫面 (保留玩家)
                           Navigator.pushAndRemoveUntil(
                             context,
-                            MaterialPageRoute(builder: (context) => const SetupScreen()),
+                            MaterialPageRoute(
+                              builder: (context) => const SetupScreen(),
+                            ),
                             (route) => false,
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Theme.of(context).colorScheme.secondary,
+                          backgroundColor: Theme.of(
+                            context,
+                          ).colorScheme.secondary,
                           foregroundColor: Colors.black,
                         ),
                         child: const Text('下一局'),

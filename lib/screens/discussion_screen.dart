@@ -6,7 +6,7 @@ import '../providers/game_provider.dart';
 import 'voting_screen.dart';
 
 /// 討論畫面
-/// 
+///
 /// 顯示題目並計時，讓玩家進行辯論
 class DiscussionScreen extends StatefulWidget {
   const DiscussionScreen({super.key});
@@ -76,11 +76,17 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
                   const SizedBox(height: 20),
                   // 題目顯示
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 40,
+                      vertical: 20,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.white10,
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: const Color(0xFFFFD700), width: 2),
+                      border: Border.all(
+                        color: const Color(0xFFFFD700),
+                        width: 2,
+                      ),
                     ),
                     child: Text(
                       game.currentTopic?.term ?? '題目',
@@ -121,7 +127,9 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
                           game.startVoting();
                           Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(builder: (context) => const VotingScreen()),
+                            MaterialPageRoute(
+                              builder: (context) => const VotingScreen(),
+                            ),
                           );
                         },
                         icon: const Icon(Icons.gavel),

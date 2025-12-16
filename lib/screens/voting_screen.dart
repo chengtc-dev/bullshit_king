@@ -6,7 +6,7 @@ import '../models/player.dart';
 import 'result_screen.dart';
 
 /// 投票畫面
-/// 
+///
 /// 讓「想想」選擇誰是「老實人」
 class VotingScreen extends StatefulWidget {
   const VotingScreen({super.key});
@@ -25,7 +25,9 @@ class _VotingScreenState extends State<VotingScreen> {
         builder: (context, game, child) {
           final thinker = game.thinker;
           // 候選人列表：除了想想以外的所有人
-          final candidates = game.players.where((p) => p.id != thinker?.id).toList();
+          final candidates = game.players
+              .where((p) => p.id != thinker?.id)
+              .toList();
 
           return SafeArea(
             child: Column(
@@ -46,12 +48,13 @@ class _VotingScreenState extends State<VotingScreen> {
                 Expanded(
                   child: GridView.builder(
                     padding: const EdgeInsets.all(20),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 16,
-                      mainAxisSpacing: 16,
-                      childAspectRatio: 0.8,
-                    ),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 16,
+                          mainAxisSpacing: 16,
+                          childAspectRatio: 0.8,
+                        ),
                     itemCount: candidates.length,
                     itemBuilder: (context, index) {
                       final player = candidates[index];
@@ -66,15 +69,23 @@ class _VotingScreenState extends State<VotingScreen> {
                         child: AnimatedContainer(
                           duration: const Duration(milliseconds: 200),
                           decoration: BoxDecoration(
-                            color: isSelected 
-                                ? Theme.of(context).colorScheme.primary 
+                            color: isSelected
+                                ? Theme.of(context).colorScheme.primary
                                 : Colors.white10,
                             borderRadius: BorderRadius.circular(20),
-                            border: isSelected 
-                                ? Border.all(color: Colors.white, width: 2) 
+                            border: isSelected
+                                ? Border.all(color: Colors.white, width: 2)
                                 : null,
                             boxShadow: isSelected
-                                ? [BoxShadow(color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.5), blurRadius: 10)]
+                                ? [
+                                    BoxShadow(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary
+                                          .withValues(alpha: 0.5),
+                                      blurRadius: 10,
+                                    ),
+                                  ]
                                 : [],
                           ),
                           child: Column(
@@ -85,7 +96,10 @@ class _VotingScreenState extends State<VotingScreen> {
                                 backgroundColor: Colors.white24,
                                 child: Text(
                                   player.name[0].toUpperCase(),
-                                  style: const TextStyle(fontSize: 32, color: Colors.white),
+                                  style: const TextStyle(
+                                    fontSize: 32,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                               const SizedBox(height: 16),
@@ -114,7 +128,9 @@ class _VotingScreenState extends State<VotingScreen> {
                               game.submitVote(_selectedPlayer!);
                               Navigator.pushReplacement(
                                 context,
-                                MaterialPageRoute(builder: (context) => const ResultScreen()),
+                                MaterialPageRoute(
+                                  builder: (context) => const ResultScreen(),
+                                ),
                               );
                             }
                           : null,

@@ -77,10 +77,7 @@ class _RevealScreenState extends State<RevealScreen> {
                     color: Theme.of(context).colorScheme.primary,
                   ).animate().shake(duration: 500.ms),
                   const SizedBox(height: 40),
-                  Text(
-                    '請將手機傳給',
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
+                  Text('請將手機傳給', style: Theme.of(context).textTheme.bodyLarge),
                   const SizedBox(height: 20),
                   Text(
                     player.name,
@@ -104,10 +101,12 @@ class _RevealScreenState extends State<RevealScreen> {
                   child: ElevatedButton(
                     onPressed: () => _handleNext(game),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: _isRevealed 
-                          ? Theme.of(context).colorScheme.primary 
+                      backgroundColor: _isRevealed
+                          ? Theme.of(context).colorScheme.primary
                           : Theme.of(context).colorScheme.secondary,
-                      foregroundColor: _isRevealed ? Colors.white : Colors.black,
+                      foregroundColor: _isRevealed
+                          ? Colors.white
+                          : Colors.black,
                     ),
                     child: Text(_isRevealed ? '我知道了 (換下一位)' : '查看身份'),
                   ),
@@ -122,7 +121,11 @@ class _RevealScreenState extends State<RevealScreen> {
   }
 
   /// 建立角色內容 Widget
-  Widget _buildRoleContent(BuildContext context, GameProvider game, Player player) {
+  Widget _buildRoleContent(
+    BuildContext context,
+    GameProvider game,
+    Player player,
+  ) {
     String roleTitle = '';
     String description = '';
     Color color = Colors.white;
@@ -158,7 +161,9 @@ class _RevealScreenState extends State<RevealScreen> {
         const SizedBox(height: 20),
         Text(
           roleTitle,
-          style: Theme.of(context).textTheme.displayMedium?.copyWith(color: color),
+          style: Theme.of(
+            context,
+          ).textTheme.displayMedium?.copyWith(color: color),
         ),
         const SizedBox(height: 30),
         // 題目卡片
@@ -174,7 +179,10 @@ class _RevealScreenState extends State<RevealScreen> {
               // 顯示分類 (所有人都看得到，作為瞎掰的提示)
               Container(
                 margin: const EdgeInsets.only(bottom: 8),
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.white24,
                   borderRadius: BorderRadius.circular(20),
@@ -239,21 +247,25 @@ class _RevealScreenState extends State<RevealScreen> {
         backgroundColor: const Color(0xFF1A0B2E),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: BorderSide(color: const Color(0xFFFFD700).withValues(alpha: 0.5)),
+          side: BorderSide(
+            color: const Color(0xFFFFD700).withValues(alpha: 0.5),
+          ),
         ),
         title: Center(
           child: Text(
             '確定換一題？',
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  color: const Color(0xFFFFD700),
-                  fontWeight: FontWeight.bold,
-                ),
+              color: const Color(0xFFFFD700),
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
         content: Text(
           '如果你已經知道題目意思，\n可以換一題重新開始。',
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white70),
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(color: Colors.white70),
         ),
         actionsAlignment: MainAxisAlignment.center,
         actions: [
@@ -274,7 +286,7 @@ class _RevealScreenState extends State<RevealScreen> {
               setState(() {
                 _isRevealed = false;
               });
-              
+
               // 呼叫 provider 重新開始
               game.startGame();
             },

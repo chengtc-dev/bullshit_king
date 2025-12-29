@@ -107,14 +107,6 @@ class CategoryDetailScreen extends StatelessWidget {
                           topic.term,
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        subtitle: Text(
-                          topic.definition,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            color: Colors.white.withValues(alpha: 0.6),
-                          ),
-                        ),
                         trailing: const Icon(Icons.play_arrow_rounded),
                         onTap: () {
                           // 開始特定題目的遊戲

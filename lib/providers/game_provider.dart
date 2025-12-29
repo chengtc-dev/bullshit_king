@@ -61,8 +61,9 @@ class GameProvider extends ChangeNotifier {
   void addPlayer(String name) {
     // 找出尚未被使用的頭像
     final usedAvatars = _players.map((p) => p.avatar).toSet();
-    final availableAvatars =
-        Player.avatars.where((a) => !usedAvatars.contains(a)).toList();
+    final availableAvatars = Player.avatars
+        .where((a) => !usedAvatars.contains(a))
+        .toList();
 
     String? avatar;
     if (availableAvatars.isNotEmpty) {
@@ -151,8 +152,9 @@ class GameProvider extends ChangeNotifier {
 
     // 如果有指定分類且不是"全部"，則過濾
     if (category != null && category != '全部') {
-      availableTopics =
-          availableTopics.where((t) => t.category == category).toList();
+      availableTopics = availableTopics
+          .where((t) => t.category == category)
+          .toList();
     }
 
     // 防呆：如果過濾後沒有題目，則使用所有題目

@@ -119,8 +119,8 @@ class _SetupScreenState extends State<SetupScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder:
-                                    (context) => const TopicSelectionScreen(),
+                                builder: (context) =>
+                                    const TopicSelectionScreen(),
                               ),
                             );
                           }

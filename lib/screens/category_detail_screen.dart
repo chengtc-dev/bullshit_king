@@ -48,12 +48,16 @@ class CategoryDetailScreen extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton.icon(
                     onPressed: () {
-                      context.read<GameProvider>().startGame(category: category);
+                      context.read<GameProvider>().startGame(
+                        category: category,
+                      );
                       Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const RevealScreen()),
-                          (route) => false);
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const RevealScreen(),
+                        ),
+                        (route) => false,
+                      );
                     },
                     icon: const Icon(Icons.shuffle),
                     label: const Text('隨機選題', style: TextStyle(fontSize: 18)),
@@ -68,7 +72,10 @@ class CategoryDetailScreen extends StatelessWidget {
 
               // 題目列表 header
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 child: Row(
                   children: [
                     Text(
@@ -78,7 +85,9 @@ class CategoryDetailScreen extends StatelessWidget {
                         fontSize: 14,
                       ),
                     ),
-                    const Expanded(child: Divider(indent: 10, color: Colors.white24)),
+                    const Expanded(
+                      child: Divider(indent: 10, color: Colors.white24),
+                    ),
                   ],
                 ),
               ),
@@ -102,19 +111,23 @@ class CategoryDetailScreen extends StatelessWidget {
                           topic.definition,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(color: Colors.white.withValues(alpha: 0.6)),
+                          style: TextStyle(
+                            color: Colors.white.withValues(alpha: 0.6),
+                          ),
                         ),
                         trailing: const Icon(Icons.play_arrow_rounded),
                         onTap: () {
                           // 開始特定題目的遊戲
-                          context
-                              .read<GameProvider>()
-                              .startGame(specificTopic: topic);
+                          context.read<GameProvider>().startGame(
+                            specificTopic: topic,
+                          );
                           Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const RevealScreen()),
-                              (route) => false);
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const RevealScreen(),
+                            ),
+                            (route) => false,
+                          );
                         },
                       ),
                     ).animate().fadeIn(delay: (50 * index).ms).slideX();

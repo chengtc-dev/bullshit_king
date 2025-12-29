@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../providers/game_provider.dart';
+import '../widgets/ad_banner_widget.dart';
 import 'voting_screen.dart';
 
 /// 討論畫面
@@ -141,6 +142,9 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 10),
+                  const AdBannerWidget(),
+                  const SizedBox(height: 10),
                 ],
               ),
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import '../widgets/ad_banner_widget.dart';
 import 'setup_screen.dart';
 
 /// 主畫面
@@ -96,7 +97,9 @@ class HomeScreen extends StatelessWidget {
                 ).animate().fadeIn(delay: 1200.ms),
                 const Spacer(),
                 const Text('題目由生成式AI產生，可能會出錯').animate().fadeIn(delay: 1500.ms),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
+                const AdBannerWidget(),
+                const SizedBox(height: 10),
               ],
             ),
           ),

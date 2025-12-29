@@ -88,8 +88,11 @@ class _SetupScreenState extends State<SetupScreen> {
                             context,
                           ).colorScheme.primary,
                           child: Text(
-                            player.name[0].toUpperCase(),
-                            style: const TextStyle(color: Colors.white),
+                            player.avatar,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                            ),
                           ),
                         ),
                         title: Text(player.name),

@@ -59,7 +59,25 @@ class GameProvider extends ChangeNotifier {
   ///
   /// [name] 玩家名稱
   void addPlayer(String name) {
-    _players.add(Player.create(name: name));
+    // 找出尚未被使用的頭像
+    final usedAvatars = _players.map((p) => p.avatar).toSet();
+    final availableAvatars =
+        Player.avatars.where((a) => !usedAvatars.contains(a)).toList();
+
+    String? avatar;
+    if (availableAvatars.isNotEmpty) {
+      // 從可用頭像中隨機選取
+      final random = Random();
+      avatar = availableAvatars[random.nextInt(availableAvatars.length)];
+    } else {
+      // 如果所有頭像都用光了 (理論上不太可能，除非玩家超多)，則退回隨機重複
+      // 或者這裡可以選擇不傳 avatar 讓 Player.create 隨機選
+      // 這裡選擇明確隨機選取
+      final random = Random();
+      avatar = Player.avatars[random.nextInt(Player.avatars.length)];
+    }
+
+    _players.add(Player.create(name: name, avatar: avatar));
     notifyListeners();
   }
 

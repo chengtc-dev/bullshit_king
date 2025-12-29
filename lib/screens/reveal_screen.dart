@@ -79,6 +79,15 @@ class _RevealScreenState extends State<RevealScreen> {
                   const SizedBox(height: 40),
                   Text('請將手機傳給', style: Theme.of(context).textTheme.bodyLarge),
                   const SizedBox(height: 20),
+                  CircleAvatar(
+                    radius: 40,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    child: Text(
+                      player.avatar,
+                      style: const TextStyle(fontSize: 40),
+                    ),
+                  ).animate().scale(),
+                  const SizedBox(height: 20),
                   Text(
                     player.name,
                     style: Theme.of(context).textTheme.displayLarge?.copyWith(

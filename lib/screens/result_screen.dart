@@ -83,8 +83,8 @@ class ResultScreen extends StatelessWidget {
                     radius: 50,
                     backgroundColor: Colors.greenAccent,
                     child: Text(
-                      honest.name[0].toUpperCase(),
-                      style: const TextStyle(fontSize: 40, color: Colors.black),
+                      honest.avatar,
+                      style: const TextStyle(fontSize: 50),
                     ),
                   ).animate().scale(delay: 500.ms).shake(delay: 1000.ms),
                   Text(
@@ -105,11 +105,11 @@ class ResultScreen extends StatelessWidget {
                       itemBuilder: (context, index) {
                         final player = game.players[index];
                         return ListTile(
-                          leading: Text(
-                            '${index + 1}',
-                            style: const TextStyle(
-                              color: Colors.white54,
-                              fontSize: 18,
+                          leading: CircleAvatar(
+                            backgroundColor: Colors.white10,
+                            child: Text(
+                              player.avatar,
+                              style: const TextStyle(fontSize: 24),
                             ),
                           ),
                           title: Text(player.name),

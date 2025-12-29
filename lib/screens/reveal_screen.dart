@@ -5,6 +5,7 @@ import '../providers/game_provider.dart';
 import '../models/player.dart';
 import '../models/game_state.dart';
 import 'discussion_screen.dart';
+import 'topic_selection_screen.dart';
 
 /// 身份揭示畫面
 ///
@@ -296,8 +297,13 @@ class _RevealScreenState extends State<RevealScreen> {
                 _isRevealed = false;
               });
 
-              // 呼叫 provider 重新開始
-              game.startGame();
+              // 重新回到選擇題目畫面
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const TopicSelectionScreen(),
+                ),
+              );
             },
             style: TextButton.styleFrom(
               foregroundColor: const Color(0xFFFFD700),

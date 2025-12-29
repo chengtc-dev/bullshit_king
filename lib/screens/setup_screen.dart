@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../providers/game_provider.dart';
-import 'reveal_screen.dart';
+import 'topic_selection_screen.dart';
 
 /// 設定畫面
 ///
@@ -116,11 +116,11 @@ class _SetupScreenState extends State<SetupScreen> {
                   child: ElevatedButton(
                     onPressed: game.canStartGame
                         ? () {
-                            game.startGame();
-                            Navigator.pushReplacement(
+                            Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const RevealScreen(),
+                                builder:
+                                    (context) => const TopicSelectionScreen(),
                               ),
                             );
                           }

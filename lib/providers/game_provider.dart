@@ -99,11 +99,13 @@ class GameProvider extends ChangeNotifier {
   /// 開始遊戲
   ///
   /// 分配角色、選擇題目並進入揭示階段
-  void startGame() {
+  /// [category] 可選的題目分類
+  /// [specificTopic] 指定的題目 (若提供則優先於 category)
+  void startGame({String? category, Topic? specificTopic}) {
     if (!canStartGame) return;
 
     _assignRoles();
-    _pickTopic();
+    _pickTopic(category, specificTopic);
     _currentPhase = GamePhase.reveal;
     _currentPlayerIndex = 0;
     notifyListeners();
@@ -138,9 +140,28 @@ class GameProvider extends ChangeNotifier {
   /// 選擇題目 (內部方法)
   ///
   /// 從題庫中隨機選擇一個題目
-  void _pickTopic() {
+  void _pickTopic(String? category, Topic? specificTopic) {
+    // 如果有指定題目，直接使用
+    if (specificTopic != null) {
+      _currentTopic = specificTopic;
+      return;
+    }
+
+    List<Topic> availableTopics = TopicsData.topics;
+
+    // 如果有指定分類且不是"全部"，則過濾
+    if (category != null && category != '全部') {
+      availableTopics =
+          availableTopics.where((t) => t.category == category).toList();
+    }
+
+    // 防呆：如果過濾後沒有題目，則使用所有題目
+    if (availableTopics.isEmpty) {
+      availableTopics = TopicsData.topics;
+    }
+
     final random = Random();
-    _currentTopic = TopicsData.topics[random.nextInt(TopicsData.topics.length)];
+    _currentTopic = availableTopics[random.nextInt(availableTopics.length)];
   }
 
   /// 換下一位玩家查看身份

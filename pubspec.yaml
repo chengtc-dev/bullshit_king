@@ -53,9 +53,13 @@ dev_dependencies:
   flutter_launcher_icons: ^0.13.1
 
 flutter_launcher_icons:
+  image_path: "assets/icon/icon.png" # 共用路徑
   android: "launcher_icon"
   ios: true
-  image_path: "assets/icon/icon.png"
+  web:
+    generate: true
+    background_color: "#ffffff" # 建議加上，Web 載入時的背景色
+    theme_color: "#ffffff"      # 建議加上，瀏覽器工具列顏色
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

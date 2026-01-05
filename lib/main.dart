@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +10,8 @@ import 'data/topics_data.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await MobileAds.instance.initialize();
+  // 只有在「不是 Web」的情況下才初始化廣告
+  if (!kIsWeb) await MobileAds.instance.initialize();
   await TopicsData.loadTopics();
   runApp(const BullshitKingApp());
 }

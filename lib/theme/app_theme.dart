@@ -19,7 +19,8 @@ class AppTheme {
   /// 獲取深色主題配置
   static ThemeData get darkTheme {
     final baseTextTheme = GoogleFonts.outfitTextTheme(
-        ThemeData.dark().textTheme);
+      ThemeData.dark().textTheme,
+    );
 
     return ThemeData(
       useMaterial3: true,
@@ -83,8 +84,9 @@ class AppTheme {
           backgroundColor: accentColor,
           foregroundColor: Colors.black,
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
           textStyle: GoogleFonts.outfit(
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -146,14 +148,9 @@ class AppTheme {
         ),
       ),
       // 分隔線主題
-      dividerTheme: const DividerThemeData(
-        color: Colors.white24,
-        thickness: 1,
-      ),
+      dividerTheme: const DividerThemeData(color: Colors.white24, thickness: 1),
       // 圖示主題
-      iconTheme: const IconThemeData(
-        color: Colors.white,
-      ),
+      iconTheme: const IconThemeData(color: Colors.white),
     );
   }
 }

@@ -51,8 +51,8 @@ class CategoryDetailScreen extends StatelessWidget {
                   child: ElevatedButton.icon(
                     onPressed: () {
                       context.read<GameProvider>().startGame(
-                            category: category,
-                          );
+                        category: category,
+                      );
                       Navigator.pushAndRemoveUntil<void>(
                         context,
                         MaterialPageRoute<void>(
@@ -83,9 +83,7 @@ class CategoryDetailScreen extends StatelessWidget {
                       '或選擇特定題目 (${topics.length})',
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
-                    const Expanded(
-                      child: Divider(indent: 10),
-                    ),
+                    const Expanded(child: Divider(indent: 10)),
                   ],
                 ),
               ),
@@ -108,8 +106,8 @@ class CategoryDetailScreen extends StatelessWidget {
                         onTap: () {
                           // 開始特定題目的遊戲
                           context.read<GameProvider>().startGame(
-                                specificTopic: topic,
-                              );
+                            specificTopic: topic,
+                          );
                           Navigator.pushAndRemoveUntil<void>(
                             context,
                             MaterialPageRoute<void>(

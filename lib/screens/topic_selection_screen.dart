@@ -11,8 +11,9 @@ class TopicSelectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 取得所有唯一分類
-    final Set<String> categories =
-        TopicsData.topics.map((t) => t.category).toSet();
+    final Set<String> categories = TopicsData.topics
+        .map((t) => t.category)
+        .toSet();
     final List<String> sortedCategories = [
       '全部',
       ...categories.toList()..sort(),
@@ -55,40 +56,40 @@ class TopicSelectionScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCategoryCard(
-          BuildContext context, String category, int index) =>
+  Widget _buildCategoryCard(BuildContext context, String category, int index) =>
       GestureDetector(
-        onTap: () {
-          // 導向分類詳情畫面
-          Navigator.push<void>(
-            context,
-            MaterialPageRoute<void>(
-              builder: (context) => CategoryDetailScreen(category: category),
+            onTap: () {
+              // 導向分類詳情畫面
+              Navigator.push<void>(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (context) =>
+                      CategoryDetailScreen(category: category),
+                ),
+              );
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).cardTheme.color,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: Colors.white24),
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Colors.white.withValues(alpha: 0.15),
+                    Colors.white.withValues(alpha: 0.05),
+                  ],
+                ),
+              ),
+              child: Center(
+                child: Text(
+                  category,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ),
             ),
-          );
-        },
-        child: Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).cardTheme.color,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.white24),
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Colors.white.withValues(alpha: 0.15),
-                Colors.white.withValues(alpha: 0.05),
-              ],
-            ),
-          ),
-          child: Center(
-            child: Text(
-              category,
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-          ),
-        ),
-      )
+          )
           .animate()
           .fadeIn(delay: (index * 50).ms)
           .scale(duration: 300.ms, curve: Curves.easeOutBack);

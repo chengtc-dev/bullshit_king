@@ -22,15 +22,13 @@ class BullshitKingApp extends StatelessWidget {
   const BullshitKingApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => GameProvider())],
-      child: MaterialApp(
-        title: 'Bullshit King',
-        theme: AppTheme.darkTheme,
-        home: const HomeScreen(),
-        debugShowCheckedModeBanner: false,
-      ),
-    );
-  }
+  Widget build(BuildContext context) => MultiProvider(
+    providers: [ChangeNotifierProvider(create: (_) => GameProvider())],
+    child: MaterialApp(
+      title: 'Bullshit King',
+      theme: AppTheme.darkTheme,
+      home: const HomeScreen(),
+      debugShowCheckedModeBanner: false,
+    ),
+  );
 }

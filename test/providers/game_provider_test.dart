@@ -1,8 +1,8 @@
-import 'package:flutter_test/flutter_test.dart';
-import 'package:bullshit_king/providers/game_provider.dart';
-import 'package:bullshit_king/models/player.dart';
-import 'package:bullshit_king/models/game_state.dart';
 import 'package:bullshit_king/data/topics_data.dart';
+import 'package:bullshit_king/models/game_state.dart';
+import 'package:bullshit_king/models/player.dart';
+import 'package:bullshit_king/providers/game_provider.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   // 為了在測試中能成功載入 assets (如 topics.json), 需要先初始化 binding

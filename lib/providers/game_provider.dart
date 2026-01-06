@@ -1,14 +1,18 @@
 import 'dart:math';
+
 import 'package:flutter/material.dart';
+
+import '../data/topics_data.dart';
+import '../models/game_state.dart';
 import '../models/player.dart';
 import '../models/topic.dart';
-import '../models/game_state.dart';
-import '../data/topics_data.dart';
 
 /// 遊戲狀態管理類 (Provider)
 ///
 /// 負責管理遊戲的核心邏輯、狀態流轉和分數計算
 class GameProvider extends ChangeNotifier {
+  final Random _random = Random();
+
   /// 玩家列表
   final List<Player> _players = [];
 
@@ -65,17 +69,13 @@ class GameProvider extends ChangeNotifier {
         .where((a) => !usedAvatars.contains(a))
         .toList();
 
-    String? avatar;
+    final String avatar;
     if (availableAvatars.isNotEmpty) {
       // 從可用頭像中隨機選取
-      final random = Random();
-      avatar = availableAvatars[random.nextInt(availableAvatars.length)];
+      avatar = availableAvatars[_random.nextInt(availableAvatars.length)];
     } else {
-      // 如果所有頭像都用光了 (理論上不太可能，除非玩家超多)，則退回隨機重複
-      // 或者這裡可以選擇不傳 avatar 讓 Player.create 隨機選
-      // 這裡選擇明確隨機選取
-      final random = Random();
-      avatar = Player.avatars[random.nextInt(Player.avatars.length)];
+      // 如果所有頭像都用光了，則從全部頭像中隨機選取
+      avatar = Player.avatars[_random.nextInt(Player.avatars.length)];
     }
 
     _players.add(Player.create(name: name, avatar: avatar));
@@ -121,20 +121,20 @@ class GameProvider extends ChangeNotifier {
       p.resetRole();
     }
 
-    // 隨機打亂玩家順序以分配角色
-    List<int> indices = List.generate(_players.length, (i) => i)..shuffle();
+    // 隨機打亂玩家列表以分配角色
+    final shuffledPlayers = List<Player>.from(_players)..shuffle(_random);
 
     // 分配想想 (第一位)
-    _thinker = _players[indices[0]];
+    _thinker = shuffledPlayers[0];
     _thinker!.role = Role.thinker;
 
     // 分配老實人 (第二位)
-    _honest = _players[indices[1]];
+    _honest = shuffledPlayers[1];
     _honest!.role = Role.honest;
 
     // 分配瞎掰人 (其餘)
-    for (int i = 2; i < indices.length; i++) {
-      _players[indices[i]].role = Role.bullshitter;
+    for (int i = 2; i < shuffledPlayers.length; i++) {
+      shuffledPlayers[i].role = Role.bullshitter;
     }
   }
 
@@ -162,8 +162,9 @@ class GameProvider extends ChangeNotifier {
       availableTopics = TopicsData.topics;
     }
 
-    final random = Random();
-    _currentTopic = availableTopics[random.nextInt(availableTopics.length)];
+    if (availableTopics.isNotEmpty) {
+      _currentTopic = availableTopics[_random.nextInt(availableTopics.length)];
+    }
   }
 
   /// 換下一位玩家查看身份
@@ -201,7 +202,7 @@ class GameProvider extends ChangeNotifier {
   /// [selectedPlayer] 被指認的玩家
   void _calculateScore(Player selectedPlayer) {
     // 判斷是否猜對 (被選中的人是否為老實人)
-    bool isCorrect = selectedPlayer.role == Role.honest;
+    final bool isCorrect = selectedPlayer.role == Role.honest;
 
     if (isCorrect) {
       // 猜對：想想 +2，老實人 +2

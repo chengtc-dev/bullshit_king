@@ -1,6 +1,8 @@
 import 'dart:convert';
-import 'package:flutter/services.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 import '../models/topic.dart';
 
 /// 題目資料類
@@ -18,8 +20,15 @@ class TopicsData {
       final String response = await rootBundle.loadString(
         'assets/data/topics.json',
       );
-      final List<dynamic> data = json.decode(response);
-      topics = data.map((json) => Topic.fromJson(json)).toList();
+      final dynamic decodedData = json.decode(response);
+      if (decodedData is List) {
+        topics = decodedData
+            .map((item) => Topic.fromJson(item as Map<String, dynamic>))
+            .toList();
+      } else {
+        debugPrint('JSON data is not a list');
+        topics = [];
+      }
     } catch (e) {
       debugPrint('Error loading topics: $e');
       // 發生錯誤時保持空列表或載入預設資料 (這裡保留空列表)

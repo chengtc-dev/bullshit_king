@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+
 import '../data/topics_data.dart';
+import '../theme/app_theme.dart';
 import 'category_detail_screen.dart';
 
 class TopicSelectionScreen extends StatelessWidget {
@@ -9,9 +11,8 @@ class TopicSelectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 取得所有唯一分類
-    final Set<String> categories = TopicsData.topics
-        .map((t) => t.category)
-        .toSet();
+    final Set<String> categories =
+        TopicsData.topics.map((t) => t.category).toSet();
     final List<String> sortedCategories = [
       '全部',
       ...categories.toList()..sort(),
@@ -30,7 +31,7 @@ class TopicSelectionScreen extends StatelessWidget {
             end: Alignment.bottomCenter,
             colors: [
               Theme.of(context).scaffoldBackgroundColor,
-              const Color(0xFF1A237E), // 深藍色
+              AppTheme.deepBlue,
             ],
           ),
         ),
@@ -54,45 +55,41 @@ class TopicSelectionScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCategoryCard(BuildContext context, String category, int index) {
-    return GestureDetector(
-          onTap: () {
-            // 導向分類詳情畫面
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => CategoryDetailScreen(category: category),
-              ),
-            );
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: Colors.white24),
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Colors.white.withValues(alpha: 0.15),
-                  Colors.white.withValues(alpha: 0.05),
-                ],
-              ),
+  Widget _buildCategoryCard(
+          BuildContext context, String category, int index) =>
+      GestureDetector(
+        onTap: () {
+          // 導向分類詳情畫面
+          Navigator.push<void>(
+            context,
+            MaterialPageRoute<void>(
+              builder: (context) => CategoryDetailScreen(category: category),
             ),
-            child: Center(
-              child: Text(
-                category,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
+          );
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).cardTheme.color,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Colors.white24),
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Colors.white.withValues(alpha: 0.15),
+                Colors.white.withValues(alpha: 0.05),
+              ],
             ),
           ),
-        )
-        .animate()
-        .fadeIn(delay: (index * 50).ms)
-        .scale(duration: 300.ms, curve: Curves.easeOutBack);
-  }
+          child: Center(
+            child: Text(
+              category,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+          ),
+        ),
+      )
+          .animate()
+          .fadeIn(delay: (index * 50).ms)
+          .scale(duration: 300.ms, curve: Curves.easeOutBack);
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:provider/provider.dart';
+
 import '../providers/game_provider.dart';
 import 'topic_selection_screen.dart';
 
@@ -26,16 +27,14 @@ class _SetupScreenState extends State<SetupScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('玩家設定'),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      body: Consumer<GameProvider>(
-        builder: (context, game, child) {
-          return Column(
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          title: const Text('玩家設定'),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
+        body: Consumer<GameProvider>(
+          builder: (context, game, child) => Column(
             children: [
               // 輸入區塊
               Padding(
@@ -45,14 +44,8 @@ class _SetupScreenState extends State<SetupScreen> {
                     Expanded(
                       child: TextField(
                         controller: _nameController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: '輸入玩家名稱',
-                          filled: true,
-                          fillColor: Theme.of(context).cardColor,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide.none,
-                          ),
                         ),
                         onSubmitted: (_) => _addPlayer(),
                       ),
@@ -62,9 +55,8 @@ class _SetupScreenState extends State<SetupScreen> {
                       onPressed: _addPlayer,
                       icon: const Icon(Icons.add),
                       style: IconButton.styleFrom(
-                        backgroundColor: Theme.of(
-                          context,
-                        ).colorScheme.secondary,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.secondary,
                         foregroundColor: Colors.black,
                       ),
                     ),
@@ -84,9 +76,8 @@ class _SetupScreenState extends State<SetupScreen> {
                       ),
                       child: ListTile(
                         leading: CircleAvatar(
-                          backgroundColor: Theme.of(
-                            context,
-                          ).colorScheme.primary,
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primary,
                           child: Text(
                             player.avatar,
                             style: const TextStyle(
@@ -97,9 +88,9 @@ class _SetupScreenState extends State<SetupScreen> {
                         ),
                         title: Text(player.name),
                         trailing: IconButton(
-                          icon: const Icon(
+                          icon: Icon(
                             Icons.delete,
-                            color: Colors.redAccent,
+                            color: Theme.of(context).colorScheme.error,
                           ),
                           onPressed: () => game.removePlayer(player.id),
                         ),
@@ -116,15 +107,16 @@ class _SetupScreenState extends State<SetupScreen> {
                   child: ElevatedButton(
                     onPressed: game.canStartGame
                         ? () {
-                            Navigator.push(
+                            Navigator.push<void>(
                               context,
-                              MaterialPageRoute(
+                              MaterialPageRoute<void>(
                                 builder: (context) =>
                                     const TopicSelectionScreen(),
                               ),
                             );
                           }
                         : null,
+                    // 這裡保留 styleFrom 是因為需要根據狀態改變顏色
                     style: ElevatedButton.styleFrom(
                       backgroundColor: game.canStartGame
                           ? Theme.of(context).colorScheme.secondary
@@ -136,9 +128,7 @@ class _SetupScreenState extends State<SetupScreen> {
                 ),
               ),
             ],
-          );
-        },
-      ),
-    );
-  }
+          ),
+        ),
+      );
 }

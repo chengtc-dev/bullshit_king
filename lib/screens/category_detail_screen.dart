@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import '../providers/game_provider.dart';
-import '../models/topic.dart';
+import 'package:provider/provider.dart';
+
 import '../data/topics_data.dart';
+import '../models/topic.dart';
+import '../providers/game_provider.dart';
+import '../theme/app_theme.dart';
 import 'reveal_screen.dart';
 
 class CategoryDetailScreen extends StatelessWidget {
@@ -14,7 +16,7 @@ class CategoryDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 過濾出該分類的所有題目
-    List<Topic> topics;
+    final List<Topic> topics;
     if (category == '全部') {
       topics = TopicsData.topics;
     } else {
@@ -34,7 +36,7 @@ class CategoryDetailScreen extends StatelessWidget {
             end: Alignment.bottomCenter,
             colors: [
               Theme.of(context).scaffoldBackgroundColor,
-              const Color(0xFF1A237E),
+              AppTheme.deepBlue,
             ],
           ),
         ),
@@ -49,20 +51,19 @@ class CategoryDetailScreen extends StatelessWidget {
                   child: ElevatedButton.icon(
                     onPressed: () {
                       context.read<GameProvider>().startGame(
-                        category: category,
-                      );
-                      Navigator.pushAndRemoveUntil(
+                            category: category,
+                          );
+                      Navigator.pushAndRemoveUntil<void>(
                         context,
-                        MaterialPageRoute(
+                        MaterialPageRoute<void>(
                           builder: (context) => const RevealScreen(),
                         ),
                         (route) => false,
                       );
                     },
                     icon: const Icon(Icons.shuffle),
-                    label: const Text('隨機選題', style: TextStyle(fontSize: 18)),
+                    label: const Text('隨機選題'),
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
                       backgroundColor: Theme.of(context).colorScheme.primary,
                       foregroundColor: Colors.white,
                     ),
@@ -80,13 +81,10 @@ class CategoryDetailScreen extends StatelessWidget {
                   children: [
                     Text(
                       '或選擇特定題目 (${topics.length})',
-                      style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.7),
-                        fontSize: 14,
-                      ),
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     const Expanded(
-                      child: Divider(indent: 10, color: Colors.white24),
+                      child: Divider(indent: 10),
                     ),
                   ],
                 ),
@@ -100,7 +98,6 @@ class CategoryDetailScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final topic = topics[index];
                     return Card(
-                      color: Colors.white.withValues(alpha: 0.1),
                       margin: const EdgeInsets.only(bottom: 8),
                       child: ListTile(
                         title: Text(
@@ -111,11 +108,11 @@ class CategoryDetailScreen extends StatelessWidget {
                         onTap: () {
                           // 開始特定題目的遊戲
                           context.read<GameProvider>().startGame(
-                            specificTopic: topic,
-                          );
-                          Navigator.pushAndRemoveUntil(
+                                specificTopic: topic,
+                              );
+                          Navigator.pushAndRemoveUntil<void>(
                             context,
-                            MaterialPageRoute(
+                            MaterialPageRoute<void>(
                               builder: (context) => const RevealScreen(),
                             ),
                             (route) => false,

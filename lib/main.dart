@@ -2,16 +2,18 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
-import 'providers/game_provider.dart';
-import 'theme/app_theme.dart';
-import 'screens/home_screen.dart';
 
 import 'data/topics_data.dart';
+import 'providers/game_provider.dart';
+import 'screens/home_screen.dart';
+import 'theme/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // 只有在「不是 Web」的情況下才初始化廣告
-  if (!kIsWeb) await MobileAds.instance.initialize();
+  if (!kIsWeb) {
+    await MobileAds.instance.initialize();
+  }
   await TopicsData.loadTopics();
   runApp(const BullshitKingApp());
 }

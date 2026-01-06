@@ -18,11 +18,9 @@ class Topic {
     this.category = '未分類',
   });
 
-  factory Topic.fromJson(Map<String, dynamic> json) {
-    return Topic(
-      term: json['term'] as String,
-      definition: json['definition'] as String,
-      category: json['category'] as String? ?? '未分類',
-    );
-  }
+  factory Topic.fromJson(Map<String, dynamic> json) => Topic(
+    term: json['term'] as String,
+    definition: json['definition'] as String,
+    category: json['category'] as String? ?? '未分類',
+  );
 }

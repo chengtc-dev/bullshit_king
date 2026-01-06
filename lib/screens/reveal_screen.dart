@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import '../providers/game_provider.dart';
-import '../models/player.dart';
+import 'package:provider/provider.dart';
+
 import '../models/game_state.dart';
+import '../models/player.dart';
+import '../providers/game_provider.dart';
+import '../theme/app_theme.dart';
 import 'discussion_screen.dart';
 import 'topic_selection_screen.dart';
 
@@ -32,9 +34,11 @@ class _RevealScreenState extends State<RevealScreen> {
 
       // 如果所有人都看過了，進入討論階段
       if (game.currentPhase == GamePhase.discuss) {
-        Navigator.pushReplacement(
+        Navigator.pushReplacement<void, void>(
           context,
-          MaterialPageRoute(builder: (context) => const DiscussionScreen()),
+          MaterialPageRoute<void>(
+            builder: (context) => const DiscussionScreen(),
+          ),
         );
       }
     } else {
@@ -46,89 +50,87 @@ class _RevealScreenState extends State<RevealScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Consumer<GameProvider>(
-        builder: (context, game, child) {
-          final player = game.currentPlayer;
-          if (player == null) return const SizedBox(); // 防呆
+  Widget build(BuildContext context) => Scaffold(
+        body: Consumer<GameProvider>(
+          builder: (context, game, child) {
+            final player = game.currentPlayer;
+            if (player == null) return const SizedBox(); // 防呆
 
-          return Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Theme.of(context).colorScheme.surface,
-                  const Color(0xFF2E004F),
+            return Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Theme.of(context).colorScheme.surface,
+                    AppTheme.deepPurple,
+                  ],
+                ),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Spacer(),
+                  if (!_isRevealed) ...[
+                    // 傳遞手機提示
+                    Icon(
+                      Icons.phone_android,
+                      size: 100,
+                      color: Theme.of(context).colorScheme.primary,
+                    ).animate().shake(duration: 500.ms),
+                    const SizedBox(height: 40),
+                    Text('請將手機傳給',
+                        style: Theme.of(context).textTheme.bodyLarge),
+                    const SizedBox(height: 20),
+                    CircleAvatar(
+                      radius: 40,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      child: Text(
+                        player.avatar,
+                        style: const TextStyle(fontSize: 40),
+                      ),
+                    ).animate().scale(),
+                    const SizedBox(height: 20),
+                    Text(
+                      player.name,
+                      style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
+                    ).animate().scale(),
+                    const SizedBox(height: 40),
+                    const Text(
+                      '確認周圍沒有其他人偷看',
+                      style: TextStyle(color: Colors.white54),
+                    ),
+                  ] else ...[
+                    // 顯示身份內容
+                    _buildRoleContent(context, game, player),
+                  ],
+                  const Spacer(),
+                  // 下一步按鈕
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () => _handleNext(game),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: _isRevealed
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).colorScheme.secondary,
+                        foregroundColor:
+                            _isRevealed ? Colors.white : Colors.black,
+                      ),
+                      child: Text(_isRevealed ? '我知道了 (換下一位)' : '查看身份'),
+                    ),
+                  ),
+                  const SizedBox(height: 40),
                 ],
               ),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Spacer(),
-                if (!_isRevealed) ...[
-                  // 傳遞手機提示
-                  Icon(
-                    Icons.phone_android,
-                    size: 100,
-                    color: Theme.of(context).colorScheme.primary,
-                  ).animate().shake(duration: 500.ms),
-                  const SizedBox(height: 40),
-                  Text('請將手機傳給', style: Theme.of(context).textTheme.bodyLarge),
-                  const SizedBox(height: 20),
-                  CircleAvatar(
-                    radius: 40,
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    child: Text(
-                      player.avatar,
-                      style: const TextStyle(fontSize: 40),
-                    ),
-                  ).animate().scale(),
-                  const SizedBox(height: 20),
-                  Text(
-                    player.name,
-                    style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
-                  ).animate().scale(),
-                  const SizedBox(height: 40),
-                  const Text(
-                    '確認周圍沒有其他人偷看',
-                    style: TextStyle(color: Colors.white54),
-                  ),
-                ] else ...[
-                  // 顯示身份內容
-                  _buildRoleContent(context, game, player),
-                ],
-                const Spacer(),
-                // 下一步按鈕
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () => _handleNext(game),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: _isRevealed
-                          ? Theme.of(context).colorScheme.primary
-                          : Theme.of(context).colorScheme.secondary,
-                      foregroundColor: _isRevealed
-                          ? Colors.white
-                          : Colors.black,
-                    ),
-                    child: Text(_isRevealed ? '我知道了 (換下一位)' : '查看身份'),
-                  ),
-                ),
-                const SizedBox(height: 40),
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  }
+            );
+          },
+        ),
+      );
 
   /// 建立角色內容 Widget
   Widget _buildRoleContent(
@@ -171,9 +173,10 @@ class _RevealScreenState extends State<RevealScreen> {
         const SizedBox(height: 20),
         Text(
           roleTitle,
-          style: Theme.of(
-            context,
-          ).textTheme.displayMedium?.copyWith(color: color),
+          style: Theme.of(context)
+              .textTheme
+              .displayMedium
+              ?.copyWith(color: color),
         ),
         const SizedBox(height: 30),
         // 題目卡片
@@ -208,18 +211,14 @@ class _RevealScreenState extends State<RevealScreen> {
               ),
               Text(
                 '題目：${game.currentTopic?.term}',
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFFFFD700),
-                ),
+                style: Theme.of(context).textTheme.headlineMedium,
               ),
               // 只有老實人看得到解釋
               if (player.role == Role.honest) ...[
-                const Divider(color: Colors.white24, height: 30),
+                const Divider(height: 30),
                 Text(
                   game.currentTopic?.definition ?? '',
-                  style: const TextStyle(fontSize: 18, height: 1.5),
+                  style: Theme.of(context).textTheme.bodyLarge,
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -230,7 +229,7 @@ class _RevealScreenState extends State<RevealScreen> {
         Text(
           description,
           textAlign: TextAlign.center,
-          style: const TextStyle(color: Colors.white70, fontSize: 16),
+          style: Theme.of(context).textTheme.bodyMedium,
         ),
         // 如果是想想，顯示重新開始按鈕
         if (player.role == Role.thinker) ...[
@@ -251,31 +250,19 @@ class _RevealScreenState extends State<RevealScreen> {
 
   /// 處理重新開始下一輪
   void _handleRestart(BuildContext context, GameProvider game) {
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        backgroundColor: const Color(0xFF1A0B2E),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-          side: BorderSide(
-            color: const Color(0xFFFFD700).withValues(alpha: 0.5),
-          ),
-        ),
         title: Center(
           child: Text(
             '確定換一題？',
-            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-              color: const Color(0xFFFFD700),
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(context).textTheme.headlineMedium,
           ),
         ),
         content: Text(
           '如果你已經知道題目意思，\n可以換一題重新開始。',
           textAlign: TextAlign.center,
-          style: Theme.of(
-            context,
-          ).textTheme.bodyMedium?.copyWith(color: Colors.white70),
+          style: Theme.of(context).textTheme.bodyMedium,
         ),
         actionsAlignment: MainAxisAlignment.center,
         actions: [
@@ -283,7 +270,6 @@ class _RevealScreenState extends State<RevealScreen> {
             onPressed: () => Navigator.pop(dialogContext),
             style: TextButton.styleFrom(
               foregroundColor: Colors.white70,
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
             ),
             child: const Text('取消'),
           ),
@@ -298,18 +284,13 @@ class _RevealScreenState extends State<RevealScreen> {
               });
 
               // 重新回到選擇題目畫面
-              Navigator.pushReplacement(
+              Navigator.pushReplacement<void, void>(
                 context,
-                MaterialPageRoute(
+                MaterialPageRoute<void>(
                   builder: (context) => const TopicSelectionScreen(),
                 ),
               );
             },
-            style: TextButton.styleFrom(
-              foregroundColor: const Color(0xFFFFD700),
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-              textStyle: const TextStyle(fontWeight: FontWeight.bold),
-            ),
             child: const Text('確定換題'),
           ),
         ],

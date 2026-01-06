@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:uuid/uuid.dart';
 
 /// 遊戲角色枚舉
 enum Role {
@@ -79,11 +80,12 @@ class Player {
   ///
   /// [name] 玩家名稱
   /// [avatar] 指定頭像 (若未提供則隨機選取)
-  /// 會自動產生一個基於時間戳記的 ID
+  /// 使用 UUID 確保 ID 的唯一性
   factory Player.create({required String name, String? avatar}) {
+    const uuid = Uuid();
     final random = Random();
     return Player(
-      id: DateTime.now().millisecondsSinceEpoch.toString(), // 暫時使用時間戳作為 ID
+      id: uuid.v4(),
       name: name,
       avatar: avatar ?? avatars[random.nextInt(avatars.length)],
     );
